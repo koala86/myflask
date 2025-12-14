@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Prevents Python from writing .pyc files and buffers
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Copy only what we need (single-file app)
-COPY main.py /app/
+COPY . /app/
 
 # Install runtime dependencies
 RUN pip install --no-cache-dir --upgrade pip \
