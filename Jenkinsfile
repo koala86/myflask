@@ -44,7 +44,8 @@ pipeline {
               docker run -d --name "${cname}" -p 5000:5000 "${image}"
             """
             // 健康检查：等待应用启动并返回包含 Hello 的页面
-            sh label: 'Health check', script: """
+            // 注意：使用 Groovy 三引号单引号，避免 $ 被 Groovy 解析
+            sh label: 'Health check', script: '''
               set -euo pipefail
               for i in $(seq 1 30); do
                 if command -v curl >/dev/null 2>&1; then
@@ -57,7 +58,7 @@ pipeline {
               done
               echo 'App did not become healthy in time' >&2
               exit 1
-            """
+            '''
           } finally {
             sh label: 'Cleanup container', script: """
               docker rm -f "${cname}" >/dev/null 2>&1 || true
